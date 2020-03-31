@@ -25,8 +25,12 @@ func apply_gravity():
 func move_logic():
     if Input.is_action_pressed("right") and not Input.is_action_pressed("left"):
         motion.x = SPEED
+        $AnimatedSprite.flip_h = false
+        
     elif Input.is_action_pressed("left") and not Input.is_action_pressed("right"):
         motion.x = -SPEED
+        $AnimatedSprite.flip_h = true
+        
     else:
         motion.x = 0
         
