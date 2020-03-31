@@ -4,20 +4,13 @@ var motion = Vector2(0,0)
 
 const SPEED = 100
 const JUMP_SPEED = 200
-const GRAVITY = 5
+const GRAVITY = 30
 const UP_DIRECTION = Vector2(0,-1)
 
 func _physics_process(delta):
     apply_gravity()
-    if Input.is_action_just_pressed("jump") and is_on_floor():
-        motion.y -= JUMP_SPEED
-    if Input.is_action_pressed("right") and not Input.is_action_pressed("left"):
-        motion.x = SPEED
-    elif Input.is_action_pressed("left") and not Input.is_action_pressed("right"):
-        motion.x = -SPEED
-    else:
-        motion.x = 0
-        
+    jump_logic()
+    move_logic()
     move_and_slide(motion, UP_DIRECTION)
     
 func apply_gravity():
@@ -28,3 +21,15 @@ func apply_gravity():
             motion.y += GRAVITY
         else:
             motion.y = 100*GRAVITY
+            
+func move_logic():
+    if Input.is_action_pressed("right") and not Input.is_action_pressed("left"):
+        motion.x = SPEED
+    elif Input.is_action_pressed("left") and not Input.is_action_pressed("right"):
+        motion.x = -SPEED
+    else:
+        motion.x = 0
+        
+func jump_logic():
+    if Input.is_action_just_pressed("jump") and is_on_floor():
+        motion.y -= JUMP_SPEED
