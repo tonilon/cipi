@@ -1,11 +1,19 @@
 extends KinematicBody2D
 
 var motion = Vector2(0,0)
+var scalePercentage = Vector2(8,8)
+
+onready var PlayerSprite = $AnimatedSprite
+onready var PlayerCollisionShape = $CollisionShape2D
 
 const SPEED = 100
 const JUMP_SPEED = 200
 const GRAVITY = 30
 const UP_DIRECTION = Vector2(0,-1)
+
+func _ready():
+    PlayerSprite.set_scale(scalePercentage)
+    PlayerCollisionShape.set_scale(scalePercentage)
 
 func _physics_process(delta):
     apply_gravity()
@@ -23,13 +31,14 @@ func apply_gravity():
             motion.y = 100*GRAVITY
             
 func move_logic():
+    
     if Input.is_action_pressed("right") and not Input.is_action_pressed("left"):
         motion.x = SPEED
-        $AnimatedSprite.flip_h = false
+        PlayerSprite.flip_h = false
         
     elif Input.is_action_pressed("left") and not Input.is_action_pressed("right"):
         motion.x = -SPEED
-        $AnimatedSprite.flip_h = true
+        PlayerSprite.flip_h = true
         
     else:
         motion.x = 0
